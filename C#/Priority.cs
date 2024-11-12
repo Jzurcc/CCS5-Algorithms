@@ -63,8 +63,9 @@ class GFG
         Console.WriteLine("Running time = " + runningTime + " seconds");
     }
 
-    public void PriorityScheduling(Process[] processes, int n)
+    public void Priority(Process[] processes, int[] burstTimes)
     {
+        int n = processes.Length;
         Array.Sort(processes, (a, b) => b.Prior.CompareTo(a.Prior));
         Console.WriteLine("Order in which processes get executed:");
         foreach (var process in processes)
@@ -81,6 +82,6 @@ class GFG
             new Process(2, 5, 0),
             new Process(3, 8, 1)
         };
-        new GFG().PriorityScheduling(processes, processes.Length);
+        new GFG().Priority(processes, [5, 8, 10]);
     }
 }
