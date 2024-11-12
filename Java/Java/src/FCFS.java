@@ -1,47 +1,42 @@
 import java.text.ParseException;
 
-class FCFS_Algorithm {
+class FCFS {
 
-    static void findWaitingTime(int processes[], int n, int bt[], int wt[]) {
-        wt[0] = 0;
+    static void findWaitingTime(int processes[], int n, int burstTimes[], int waitingTimes[]) {
+        waitingTimes[0] = 0;
         for (int i = 1; i < n; i++) {
-            wt[i] = bt[i - 1] + wt[i - 1];
+            waitingTimes[i] = burstTimes[i - 1] + waitingTimes[i - 1];
         }
     }
 
-    static void findTurnAroundTime(int processes[], int n, int bt[], int wt[], int tat[]) {
+    static void findTurnAroundTime(int processes[], int n, int burstTimes[], int waitingTimes[], int turnaroundTimes[]) {
         for (int i = 0; i < n; i++) {
-            tat[i] = bt[i] + wt[i];
+            turnaroundTimes[i] = burstTimes[i] + waitingTimes[i];
         }
     }
 
-    static void FCFS(int processes[], int n, int bt[]) {
-        int wt[] = new int[n], tat[] = new int[n];
-        int total_wt = 0, total_tat = 0;
+    static void _FCFS(int processes[], int burstTimes[]) {
+        int n = processes.length;
+        int waitingTimes[] = new int[n], turnaroundTimes[] = new int[n];
+        int totalWt = 0, totalTt = 0;
 
-        findWaitingTime(processes, n, bt, wt);
-        findTurnAroundTime(processes, n, bt, wt, tat);
+        findWaitingTime(processes, n, burstTimes, waitingTimes);
+        findTurnAroundTime(processes, n, burstTimes, waitingTimes, turnaroundTimes);
 
         System.out.printf("Processes Burst time Waiting time Turn around time\n");
         for (int i = 0; i < n; i++) {
-            total_wt += wt[i];
-            total_tat += tat[i];
-            System.out.printf(" %d ", (i + 1));
-            System.out.printf("     %d ", bt[i]);
-            System.out.printf("     %d", wt[i]);
-            System.out.printf("     %d\n", tat[i]);
+            totalWt += waitingTimes[i];
+            totalTt += turnaroundTimes[i];
+            System.out.printf(" %d      %d      %d     %d\n", (i + 1), burstTimes[i], waitingTimes[i], turnaroundTimes[i]);
         }
-        float s = (float) total_wt / n;
-        int t = total_tat / n;
-        System.out.printf("Average waiting time = %f", s);
-        System.out.printf("\n");
-        System.out.printf("Average turn around time = %d ", t);
+        float avgWt = (float) totalWt / n;
+        int avgTt = totalTt / n;
+        System.out.printf("Average waiting time = %f\nAverage turn around time = %d ", avgWt, avgTt);
     }
 
     public static void main(String[] args) throws ParseException {
         int processes[] = {1, 2, 3};
-        int n = processes.length;
-        int burst_time[] = {10, 5, 8};
-        FCFS(processes, n, burst_time);
+        int burstTimes[] = {10, 5, 8};
+        _FCFS(processes, burstTimes);
     }
 }
