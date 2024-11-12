@@ -1,29 +1,31 @@
-def findWaitingTime(processes, n, bt, wt):
-    wt[0] = 0
+def findWaitingTime(processes, burstTime, waitingTime):
+    n = len(processes)
+    waitingTime[0] = 0
     for i in range(1, n):
-        wt[i] = bt[i - 1] + wt[i - 1]
+        waitingTime[i] = burstTime[i - 1] + waitingTime[i - 1]
 
-def findTurnAroundTime(processes, n, bt, wt, tat):
-    for i in range(n):
-        tat[i] = bt[i] + wt[i]
+def findTurnAroundTime(processes, burstTime, waitingTime, turnaroundTime):
+    for i in range(len(processes)):
+        turnaroundTime[i] = burstTime[i] + waitingTime[i]
 
-def FCFS(processes, n, bt):
-    wt = [0] * n
-    tat = [0] * n
-    total_wt = 0
-    total_tat = 0
-    findWaitingTime(processes, n, bt, wt)
-    findTurnAroundTime(processes, n, bt, wt, tat)
+def FCFS(processes, burstTime):
+    n = len(processes)
+    waitingTime = [0] * n
+    turnaroundTime = [0] * n
+    totalWaitingTime = 0
+    totalTurnaroundTime = 0
+    findWaitingTime(processes, n, burstTime, waitingTime)
+    findTurnAroundTime(processes, n, burstTime, waitingTime, turnaroundTime)
     print("Processes Burst time Waiting time Turn around time")
     for i in range(n):
-        total_wt += wt[i]
-        total_tat += tat[i]
-        print(" " + str(i + 1) + "\t\t" + str(bt[i]) + "\t " + str(wt[i]) + "\t\t " + str(tat[i]))
-    print("Average waiting time =", str(total_wt / n))
-    print("Average turn around time =", str(total_tat / n))
+        totalWaitingTime += waitingTime[i]
+        totalTurnaroundTime += turnaroundTime[i]
+        print(" " + str(i + 1) + "\t\t" + str(burstTime[i]) + "\t " + str(waitingTime[i]) + "\t\t " + str(turnaroundTime[i]))
+    print("Average waiting time =", str(totalWaitingTime / n))
+    print("Average turn around time =", str(totalTurnaroundTime / n))
 
 if __name__ == "__main__":
     processes = [1, 2, 3]
     n = len(processes)
-    burst_time = [10, 5, 8]
-    FCFS(processes, n, burst_time)
+    burstTime = [10, 5, 8]
+    FCFS(processes, burstTime)
