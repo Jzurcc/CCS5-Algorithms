@@ -7,7 +7,7 @@ def findTurnAroundTime(processes, n, bt, wt, tat):
     for i in range(n):
         tat[i] = bt[i] + wt[i]
 
-def findavgTime(processes, n, bt):
+def FCFS(processes, n, bt):
     wt = [0] * n
     tat = [0] * n
     total_wt = 0
@@ -26,4 +26,4 @@ if __name__ == "__main__":
     processes = [1, 2, 3]
     n = len(processes)
     burst_time = [10, 5, 8]
-    findavgTime(processes, n, burst_time)
+    FCFS(processes, n, burst_time)
