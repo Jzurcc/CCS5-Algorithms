@@ -1,5 +1,5 @@
 public class SJN {
-    public static void _SJN(int[] processes, int[] burstTimes) {
+    public static void sjn(int[] processes, int[] burstTimes) {
         int n = processes.length;
         int[][] processInfo = new int[100][4];
         int total = 0;
@@ -51,6 +51,6 @@ public class SJN {
     public static void main(String[] args) {
         int[] processes = {1, 2, 3};
         int[] burstTimes = {10, 5, 8};
-        _SJN(processes, burstTimes);
+        sjn(processes, burstTimes);
     }
 }

@@ -29,7 +29,7 @@ public class RR {
             tat[i] = bt[i] + wt[i];
     }
 
-    static void _RR(int[] processes, int[] bt, int quantum) {
+    static void rr(int[] processes, int[] bt, int quantum) {
         int n = processes.length;
         int[] wt = new int[n], tat = new int[n];
         long startTime = System.nanoTime();
@@ -57,6 +57,6 @@ public class RR {
         int[] processes = {1, 2, 3};
         int[] burst_time = {10, 5, 8};
         int quantum = 2;
-        _RR(processes, burst_time, quantum);
+        rr(processes, burst_time, quantum);
     }
 }

@@ -15,7 +15,7 @@ class FCFS {
         }
     }
 
-    static void _FCFS(int processes[], int burstTimes[]) {
+    static void fcfs(int processes[], int burstTimes[]) {
         int n = processes.length;
         int waitingTimes[] = new int[n], turnaroundTimes[] = new int[n];
         int totalWt = 0, totalTt = 0;
@@ -37,6 +37,6 @@ class FCFS {
     public static void main(String[] args) throws ParseException {
         int processes[] = {1, 2, 3};
         int burstTimes[] = {10, 5, 8};
-        _FCFS(processes, burstTimes);
+        fcfs(processes, burstTimes);
     }
 }

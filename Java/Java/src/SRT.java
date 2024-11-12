@@ -29,7 +29,7 @@ public class SRT {
             tat[i] = bt[i] + wt[i];
     }
 
-    static void _SRT(int[] processes, int[] bt, int quantum) {
+    static void srt(int[] processes, int[] bt, int quantum) {
         int n = processes.length;
         int[] wt = new int[n], tat = new int[n];
         long startTime = System.nanoTime();
@@ -57,6 +57,6 @@ public class SRT {
         int[] processes = {1, 2, 3};
         int[] burst_time = {10, 5, 8};
         int quantum = 2;
-        _SRT(processes, burst_time, quantum);
+        srt(processes, burst_time, quantum);
     }
 }

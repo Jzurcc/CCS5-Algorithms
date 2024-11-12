@@ -57,7 +57,7 @@ public class Priority {
         System.out.println("Running time = " + runningTime + " seconds");
     }
 
-    public void _Priority(Process[] processes, int[] burstTimes) {
+    public void priority(Process[] processes, int[] burstTimes) {
         int n = processes.length;
         Arrays.sort(processes, (a, b) -> b.getPriority() - a.getPriority());
         System.out.println("Order in which processes get executed:");
@@ -75,6 +75,6 @@ public class Priority {
             new Process(3, 8, 1)
         };
         int[] bt = {5, 8, 10};
-        new Priority()._Priority(processes, bt);
+        new Priority().priority(processes, bt);
     }
 }
