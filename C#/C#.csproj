@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>C_</RootNamespace>
+    <StartupObject>FCFS</StartupObject>
   </PropertyGroup>
 
 </Project>
