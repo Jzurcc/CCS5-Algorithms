@@ -1,52 +1,74 @@
 import time
 
-def findWaitingTime(processes, burstTimes, waitingTimes, quantum):
+def findWaitingTime(processes, burst_times, arrival_times, wt, quantum):
 	n = len(processes)
-	rem_bt = burstTimes[:]
+	rt = burst_times.copy()
+	complete = 0
 	t = 0
-	while True:
-		done = True
-		for i in range(n):
-			if rem_bt[i] > 0:
-				done = False
-				if rem_bt[i] > quantum:
-					t += quantum
-					rem_bt[i] -= quantum
-				else:
-					t += rem_bt[i]
-					waitingTimes[i] = t - burstTimes[i]
-					rem_bt[i] = 0
-		if done:
-			break
+	minm = float('inf')
+	short = 0
+	check = False
 
-def findTurnAroundTime(processes, burstTimes, waitingTimes, turnaroundTime):
-	n = len(processes)
-	for i in range(n):
-		turnaroundTime[i] = burstTimes[i] + waitingTimes[i]
+	while complete != n:
+		for j in range(n):
+			if arrival_times[j] <= t and rt[j] < minm and rt[j] > 0:
+				minm = rt[j]
+				short = j
+				check = True
+		if not check:
+			t += 1
+			continue
 
-def SRT(processes, burstTimes, quantum):
-	n = len(processes)
-	waitingTimes = [0] * n
-	turnaroundTime = [0] * n
-	startTime = time.time()
-	findWaitingTime(processes, burstTimes, waitingTimes, quantum)
-	findTurnAroundTime(processes, burstTimes, waitingTimes, turnaroundTime)
-	endTime = time.time()
-	totalWt = sum(waitingTimes)
-	totalTt = sum(turnaroundTime)
-	avgWt = totalWt / n
-	avgTt = totalTt / n
-	throughput = n / (endTime - startTime)
-	print("Processes Burst Time Waiting Time Turn-Around Time")
+		rt[short] -= 1
+		minm = rt[short] if rt[short] > 0 else float('inf')
+
+		if rt[short] == 0:
+			complete += 1
+			check = False
+			fint = t + 1
+			wt[short] = fint - burst_times[short] - arrival_times[short]
+			if wt[short] < 0:
+				wt[short] = 0
+		t += 1
+
+	return t  # Total running time
+
+def findTurnAroundTime(burst_times, wt, tat):
+	n = len(burst_times)
 	for i in range(n):
-		print(f" {processes[i]}        {burstTimes[i]}        {waitingTimes[i]}          {turnaroundTime[i]}")
-	print(f"\nAverage waiting time = {avgWt:.5f}")
-	print(f"Average turn around time = {avgTt:.5f}")
-	print(f"Throughput = {throughput}")
-	print(f"Running time = {endTime - startTime:.5f} seconds")
+		tat[i] = burst_times[i] + wt[i]
+
+def findavgTime(processes, burst_times, arrival_times, quantum):
+	n = len(processes)
+	wt = [0] * n
+	tat = [0] * n
+
+	start_time = time.time()
+	total_running_time = findWaitingTime(processes, burst_times, arrival_times, wt, quantum)
+	findTurnAroundTime(burst_times, wt, tat)
+	end_time = time.time()
+
+	print("Processes    Burst Time     Waiting Time    Turn-Around Time")
+	total_wt = 0
+	total_tat = 0
+	for i in range(n):
+		total_wt += wt[i]
+		total_tat += tat[i]
+		print(f" {processes[i]}           {burst_times[i]}            {wt[i]}            {tat[i]}")
+
+	avg_wt = total_wt / n
+	avg_tat = total_tat / n
+	throughput = n / total_running_time
+	running_duration = end_time - start_time
+
+	print("\nAverage waiting time = %.5f" % avg_wt)
+	print("Average turn around time = %.5f" % avg_tat)
+	print("Total running time (CPU clock time) = %.5f seconds" % running_duration)
+	print("Throughput = %.5f processes per time unit" % throughput)
 
 if __name__ == "__main__":
-	processes = [1, 2, 3]
-	burst_time = [10, 5, 8]
+	processes = [1, 2, 3, 4]
+	burst_times = [6, 8, 7, 3]
+	arrival_times = [1, 1, 2, 3]
 	quantum = 2
-	SRT(processes, burst_time, quantum)
+	findavgTime(processes, burst_times, arrival_times, quantum)
